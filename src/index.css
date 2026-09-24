@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #16241C;
+  --color-accent: #EFAEE3;
+  --color-text: #F6F1EA;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+canvas.decorative-canvas,
+canvas.decorative-canvas * {
+  pointer-events: none !important;
+  touch-action: pan-y !important;
+  user-select: none !important;
+}
+
+.nav-link {
+  position: relative;
+  color: inherit;
+  transition: color 250ms ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background-color: var(--color-accent);
+  border-radius: 9999px;
+  transition: width 300ms ease;
+}
+
+.nav-link.is-active {
+  color: var(--color-accent);
+}
+
+.nav-link.is-active::after {
+  width: 100%;
+}
