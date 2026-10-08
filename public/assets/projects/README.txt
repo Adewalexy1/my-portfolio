@@ -1,14 +1,7 @@
-Place your project case-study images here. Recommended size: 1920 x 1080 (16:9), JPG at ~70–80% quality.
+Project images live here (1920 x 1200 JPG, ~75% quality works well).
 
-Expected filenames matching projects data (Work section, 01–07):
-- beanbox.jpg          (01 — BeanBox Café)
-- fitzone.jpg          (02 — FitZone)
-- axis.jpg             (03 — Axis Performance)
-- aura.jpg             (04 — Aura)
-- nordic-film.jpg      (05 — Nordic Film Festival)
-- marketing-pack.jpg   (06 — Business Marketing Pack)
-- verdant.jpg          (07 — Verdant)
-
-Upcoming (to be added later when designs are ready):
-- nova-pay.jpg         (TBD — Nova Pay)
-- amara.jpg            (TBD — Amara)
+Website projects currently show the client logo on a light plate:
+- azmojies-logo.jpg
+- omoniyi-logo.jpg
+To use a real screenshot instead, drop e.g. azmojies.jpg here, then in
+src/sections/Projects.jsx change the project's `image` and remove `fit: 'contain'`.

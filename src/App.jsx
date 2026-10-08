@@ -1,149 +1,91 @@
-import { useEffect, useRef, useState } from 'react'
-import Lenis from 'lenis'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Canvas } from '@react-three/fiber'
-import { Float } from '@react-three/drei'
-import Hero from './sections/Hero'
-import About from './sections/About'
-import Projects from './sections/Projects'
-import Pricing from './sections/Pricing'
-import Contact from './sections/Contact'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
-import Scene from './three/Scene'
+import Hero from './sections/Hero'
+import Projects from './sections/Projects'
+import About from './sections/About'
+import Services from './sections/Services'
+import Contact from './sections/Contact'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const NAV_HEIGHT = 76
-const SECTION_ORDER = ['top', 'about', 'projects', 'services', 'contact']
+const SECTIONS = ['top', 'work', 'about', 'services', 'contact']
 
 function App() {
-  const lenisRef = useRef(null)
-  const [activeSection, setActiveSection] = useState('top')
+  const [active, setActive] = useState('top')
 
+  // Track which section is in view for the navbar.
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      smoothTouch: false,
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id)
+        })
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    )
+    SECTIONS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) io.observe(el)
     })
-    lenisRef.current = lenis
+    return () => io.disconnect()
+  }, [])
 
-    lenis.on('scroll', ScrollTrigger.update)
-
-    const tickerCallback = (time) => {
-      lenis.raf(time * 1000)
-    }
-    gsap.ticker.add(tickerCallback)
-
-    gsap.ticker.lagSmoothing(0)
-
-    // Section positions (images, fonts, the 3D canvas) can shift after
-    // first paint, which throws off ScrollTrigger's start/end math and is
-    // the main cause of fade-ins inconsistently not firing. Refresh once
-    // everything has actually loaded, and once more shortly after as a
-    // safety net for late-loading assets.
-    const handleLoad = () => ScrollTrigger.refresh()
-    window.addEventListener('load', handleLoad)
-    const refreshTimeout = setTimeout(() => ScrollTrigger.refresh(), 500)
-
-    const handleAnchorClick = (e) => {
-      const link = e.target.closest('a[href^="#"]')
-      if (!link) return
-      const href = link.getAttribute('href')
-      if (!href || href === '#') return
-      const target = document.querySelector(href)
-      if (!target) return
-      e.preventDefault()
-      lenis.scrollTo(target, {
-        offset: -NAV_HEIGHT,
-        duration: 1.1,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  // Pointer-follow light: a soft glow behind everything, and a specular
+  // highlight inside whichever glass panel the pointer is over.
+  useEffect(() => {
+    if (window.matchMedia('(hover: none)').matches) return
+    const glow = document.querySelector('.cursor-glow')
+    let raf = 0
+    const onMove = (e) => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        if (glow) {
+          glow.style.setProperty('--cx', `${e.clientX}px`)
+          glow.style.setProperty('--cy', `${e.clientY}px`)
+        }
+        const panel = e.target.closest?.('.glass')
+        if (panel) {
+          const r = panel.getBoundingClientRect()
+          panel.style.setProperty('--px', `${e.clientX - r.left}px`)
+          panel.style.setProperty('--py', `${e.clientY - r.top}px`)
+        }
       })
     }
-
-    document.addEventListener('click', handleAnchorClick, false)
-
-    const sectionStarts = SECTION_ORDER.map((id) => {
-      const el = document.getElementById(id)
-      return el
-        ? { id, start: () => ScrollTrigger.create({ trigger: el }).start }
-        : null
-    }).filter(Boolean)
-
-    const updateActive = () => {
-      const scrollY = window.scrollY + NAV_HEIGHT + 40
-      let current = SECTION_ORDER[0]
-      for (const { id } of sectionStarts) {
-        const el = document.getElementById(id)
-        if (!el) continue
-        const top = el.getBoundingClientRect().top + window.scrollY
-        if (top <= scrollY) current = id
-      }
-      setActiveSection(current)
-    }
-
-    const onScroll = () => updateActive()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    updateActive()
-
-    ScrollTrigger.create({
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-      onUpdate: () => updateActive(),
-    })
-
+    window.addEventListener('pointermove', onMove, { passive: true })
     return () => {
-      document.removeEventListener('click', handleAnchorClick, false)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      window.removeEventListener('load', handleLoad)
-      clearTimeout(refreshTimeout)
-      lenis.destroy()
-      ScrollTrigger.getAll().forEach((t) => t.kill())
-      gsap.ticker.remove(tickerCallback)
+      window.removeEventListener('pointermove', onMove)
+      cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
-    <div className="min-h-screen bg-bg text-text">
-      <Navbar activeSection={activeSection} />
+    <>
+      {/* Refraction filter used by the hero lens (Chromium only) */}
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
+        <defs>
+          <filter id="liquid" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="7" result="noise" />
+            <feGaussianBlur in="noise" stdDeviation="2" result="soft" />
+            <feDisplacementMap in="SourceGraphic" in2="soft" scale="46" xChannelSelector="R" yChannelSelector="B" />
+          </filter>
+        </defs>
+      </svg>
+
+      <div className="aurora" aria-hidden="true">
+        <div className="orb orb--a" />
+        <div className="orb orb--b" />
+        <div className="orb orb--c" />
+        <div className="gridlines" />
+      </div>
+      <div className="cursor-glow" aria-hidden="true" />
+
+      <Navbar active={active} />
       <main>
         <Hero />
-        <About />
         <Projects />
-        <Pricing />
-        <section
-          id="scene-showcase"
-          className="relative h-screen w-full"
-          aria-label="Decorative 3D scene"
-        >
-          <div
-            className="pointer-events-none absolute inset-0"
-            data-lenis-prevent
-            aria-hidden="true"
-          >
-            <Canvas
-              camera={{ position: [0, 0, 5], fov: 45 }}
-              gl={{ antialias: true, alpha: true }}
-              dpr={[1, 2]}
-              className="decorative-canvas h-full w-full"
-            >
-              <ambientLight intensity={0.5} />
-              <directionalLight position={[10, 10, 5]} intensity={1} />
-              <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-                <Scene />
-              </Float>
-            </Canvas>
-          </div>
-        </section>
+        <About />
+        <Services />
         <Contact />
       </main>
-    </div>
+    </>
   )
 }
 

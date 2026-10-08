@@ -1,221 +1,229 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useState } from 'react'
 
 export const projects = [
   {
-    id: "beanbox-cafe",
-    title: "BeanBox Café",
-    category: "Logo & Branding",
-    tagline: "Brand identity concept for an independent café brand",
-    image: "/assets/projects/beanbox.jpg",
+    id: 'azmojies',
+    kind: 'website',
+    title: 'A. Z. & Mojies Venture',
+    category: 'Website design and development',
+    tagline: 'Trading and advisory website with a product catalogue and admin panel.',
+    image: '/assets/projects/azmojies-logo.jpg',
+    fit: 'contain',
+    plate: '#f8f7f1',
+    badge: 'Client work',
+    url: 'https://azmojiesventure.org',
+    stack: ['PHP', 'MySQL', 'GSAP', 'Admin dashboard'],
     brief:
-      "A fictional independent café needed a warm, modern identity that felt handmade — not corporate — and worked equally well on a coffee cup and a takeout bag.",
+      'A trading and consultancy firm with three lines of business (merchandise, import and export, investment advisory) needed one credible website that turns visitors into quote requests.',
     approach:
-      "Designed a simple cup-and-steam mark paired with a rounded serif wordmark, built around a warm cream-and-espresso-brown palette for a cozy, artisanal feel.",
+      'Built the site around the three services, using a navy and gold palette taken from the client logo. Added a filterable product catalogue, a gallery with lightbox, and forms that submit without leaving the page.',
     result:
-      "A clean, flexible identity system applied consistently across cups, packaging, and signage — instantly recognisable at a glance.",
+      'A live, mobile-first website where the client manages products, categories, gallery items and incoming inquiries from their own secure admin panel.',
   },
   {
-    id: "fitzone",
-    title: "FitZone",
-    category: "Logo & Brand Identity",
-    tagline: "High-performance brand identity for a modern gym",
-    image: "/assets/projects/fitzone.jpg",
+    id: 'omoniyi-aj',
+    kind: 'website',
+    title: 'Omoniyi AJ & Associate',
+    category: 'Website design and development',
+    tagline: 'Real estate website with property listings, agents and branches.',
+    image: '/assets/projects/omoniyi-logo.jpg',
+    fit: 'contain',
+    plate: '#ffffff',
+    badge: 'Client work',
+    stack: ['PHP', 'MySQL', 'Admin dashboard'],
     brief:
-      "A modern gym brand wanted a logo that felt energetic and bold — something that could stand alone as an icon on apparel and equipment.",
+      'A real estate company with branches across Nigeria needed one place to show properties for sale and rent, introduce its agents, and turn visitors into inquiries.',
     approach:
-      "Built a dynamic 'FZ' monogram in motion-inspired blue and green, paired with a strong geometric wordmark for maximum impact at any size.",
+      'Designed a clean layout in deep green and gold from the client logo. Built filterable listings, detailed property pages with image and video galleries, and a custom admin dashboard.',
     result:
-      "A punchy, versatile mark that reads clearly on a business card or a gym wall — reinforcing raw strength and energy.",
+      'The team can add properties, agents, branches, gallery media and testimonials themselves, and every inquiry lands in one inbox.',
   },
   {
-    id: "axis-performance",
-    title: "Axis Performance",
-    category: "Brand Identity & Environment",
-    tagline: "Full brand rollout across apparel, merchandise, and interior space",
-    image: "/assets/projects/axis.jpg",
+    id: 'beanbox-cafe',
+    title: 'BeanBox Café',
+    category: 'Logo and branding',
+    badge: 'Concept',
+    tagline: 'Brand identity for an independent café.',
+    image: '/assets/projects/beanbox.jpg',
     brief:
-      "A performance gym brand needed a mark strong enough to carry across a full space — walls, apparel, and merchandise — not just a logo on paper.",
+      'An independent café needed a warm, modern identity that felt handmade, not corporate, and worked on both a coffee cup and a takeout bag.',
     approach:
-      "Created a bold, minimal arrow-mark in monochrome, designed to scale from a water bottle to a full accent wall without losing impact.",
+      'A simple cup-and-steam mark with a rounded serif wordmark, built on a cream and espresso-brown palette.',
     result:
-      "A cohesive brand environment where every touchpoint — shirt, wall, and cup — reinforces the same premium, focused identity.",
+      'A clean, flexible identity system applied across cups, packaging and signage.',
   },
   {
-    id: "aura",
-    title: "Aura",
-    category: "Brand & Packaging Design",
-    tagline: "Packaging identity concept for a beauty brand",
-    image: "/assets/projects/aura.jpg",
+    id: 'fitzone',
+    title: 'FitZone',
+    category: 'Logo and brand identity',
+    tagline: 'High-performance brand identity for a modern gym.',
+    image: '/assets/projects/fitzone.jpg',
     brief:
-      "A beauty brand concept needed packaging that felt premium and soft, appealing to a modern, self-care-focused customer.",
+      'A modern gym brand wanted an energetic, bold logo that could stand alone as an icon on apparel and equipment.',
     approach:
-      "Used a soft blush palette with a minimal serif logotype, keeping every product in the line visually unified on the shelf.",
-    result:
-      "A cohesive, shelf-ready packaging suite that reads as premium without feeling cold or overly clinical.",
+      'A dynamic "FZ" monogram in motion-inspired blue and green, paired with a strong geometric wordmark.',
+    result: 'A versatile mark that reads clearly on a business card or a gym wall.',
   },
   {
-    id: "nordic-film-festival",
-    title: "Nordic Film Festival",
-    category: "Print & Identity Design",
-    tagline: "Poster and stationery concept for a cultural event",
-    image: "/assets/projects/nordic-film.jpg",
+    id: 'axis-performance',
+    title: 'Axis Performance',
+    category: 'Brand identity and environment',
+    tagline: 'Brand rollout across apparel, merchandise and interior space.',
+    image: '/assets/projects/axis.jpg',
     brief:
-      "A film festival concept needed a poster and identity system that felt cinematic and distinctly Nordic — moody, but inviting.",
+      'A performance gym brand needed a mark strong enough to carry across walls, apparel and merchandise, not just a logo on paper.',
     approach:
-      "Illustrated a layered mountain-and-ship scene in a muted navy palette, carried through onto business cards and stationery.",
-    result:
-      "A striking, story-driven poster design that works as a standalone piece of art as much as an event promotion.",
+      'A bold, minimal arrow-mark in monochrome, designed to scale from a water bottle to a full accent wall.',
+    result: 'Every touchpoint (shirt, wall and cup) reinforces the same premium, focused identity.',
   },
   {
-    id: "business-marketing-pack",
-    title: "Business Marketing Pack",
-    category: "Social Media & Marketing Design",
-    tagline: "A cohesive visual system for social media graphics",
-    image: "/assets/projects/marketing-pack.jpg",
+    id: 'aura',
+    title: 'Aura',
+    category: 'Brand and packaging design',
+    badge: 'Concept',
+    tagline: 'Packaging identity for a beauty brand.',
+    image: '/assets/projects/aura.jpg',
     brief:
-      "Several small business clients needed social media graphics that felt consistent and professional across their channels.",
+      'A beauty brand needed packaging that felt premium and soft, for a modern, self-care-focused customer.',
     approach:
-      "Built a reusable template system — logos, post templates, and packaging mockups — sharing a consistent grid and type system.",
-    result:
-      "A cohesive visual system for social media graphics designed to improve engagement and brand recognition.",
+      'A soft blush palette with a minimal serif logotype, keeping every product in the line visually unified.',
+    result: 'A cohesive, shelf-ready packaging suite that feels premium without feeling clinical.',
   },
   {
-    id: "verdant",
-    title: "Verdant",
-    category: "Brand & Packaging Design",
-    tagline: "Natural skincare brand identity concept",
-    image: "/assets/projects/verdant.jpg",
+    id: 'nordic-film-festival',
+    title: 'Nordic Film Festival',
+    category: 'Print and identity design',
+    badge: 'Concept',
+    tagline: 'Poster and stationery for a cultural event.',
+    image: '/assets/projects/nordic-film.jpg',
     brief:
-      "A fictional natural skincare brand needed a minimalist identity that felt organic and trustworthy — something that could live on a bottle, a box, and Instagram equally well.",
+      'A film festival needed a poster and identity system that felt cinematic and distinctly Nordic: moody, but inviting.',
     approach:
-      "Designed a single leaf mark paired with a serif wordmark, built around a sage green, cream, and terracotta palette for a calm, editorial feel.",
-    result:
-      "A cohesive brand system — logo, packaging, business card, and social templates — all sharing one consistent mark and color language.",
+      'A layered mountain-and-ship illustration in a muted navy palette, carried onto business cards and stationery.',
+    result: 'A story-driven poster that works as a piece of art as much as an event promotion.',
+  },
+  {
+    id: 'verdant',
+    title: 'Verdant',
+    category: 'Brand and packaging design',
+    badge: 'Concept',
+    tagline: 'Natural skincare brand identity.',
+    image: '/assets/projects/verdant.jpg',
+    brief:
+      'A natural skincare brand needed a minimalist identity that felt organic and trustworthy, on a bottle, a box and Instagram alike.',
+    approach:
+      'A single leaf mark with a serif wordmark, in sage green, cream and terracotta.',
+    result: 'One consistent mark and colour language across logo, packaging, business card and social templates.',
+  },
+  {
+    id: 'business-marketing-pack',
+    title: 'Business Marketing Pack',
+    category: 'Social media and marketing design',
+    tagline: 'A visual system for social media graphics.',
+    image: '/assets/projects/marketing-pack.jpg',
+    brief:
+      'Small business clients needed social media graphics that felt consistent and professional across their channels.',
+    approach:
+      'A reusable template system (logos, post templates and packaging mockups) sharing one grid and type system.',
+    result: 'A cohesive visual system designed to improve engagement and brand recognition.',
   },
 ]
 
-function Projects() {
-  const sectionRef = useRef(null)
-  const titleRef = useRef(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          toggleActions: 'play reverse play reverse',
-        },
-      })
-
-      gsap.utils.toArray('.project-item').forEach((item, i) => {
-        gsap.from(item, {
-          y: 80,
-          opacity: 0,
-          duration: 1,
-          ease: 'power3.out',
-          delay: i * 0.15,
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 75%',
-            toggleActions: 'play reverse play reverse',
-          },
-        })
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+function ProjectCard({ p }) {
+  const [open, setOpen] = useState(false)
+  const panelId = `${p.id}-details`
 
   return (
-    <section id="projects" ref={sectionRef} className="relative py-32 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2
-          ref={titleRef}
-          className="text-4xl md:text-6xl font-bold mb-16"
-        >
-          <span className="text-accent">02.</span> Selected Work
-        </h2>
-        <div className="space-y-24">
-          {projects.map((project, i) => (
-            <article
-              key={project.id}
-              className="project-item group border-b border-text/10 pb-20 last:border-b-0"
-            >
-              <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-start mb-10">
-                <div className="md:col-span-2 text-accent text-sm font-mono pt-2">
-                  {String(i + 1).padStart(2, '0')}
-                </div>
-                <div className="md:col-span-7">
-                  <p className="text-accent text-sm uppercase tracking-widest mb-3">
-                    {project.category}
-                  </p>
-                  <h3 className="text-3xl md:text-5xl font-bold mb-3 group-hover:text-accent transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-lg md:text-xl text-text/80 leading-relaxed max-w-2xl">
-                    {project.tagline}
-                  </p>
-                </div>
-                <div className="md:col-span-3 text-sm text-text/60 space-y-2 pt-2 md:text-right">
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-2 hover:text-accent transition-colors duration-300"
-                  >
-                    View Case Study →
-                  </a>
-                </div>
+    <article className="glass proj">
+      <div
+        className={`proj__media ${p.fit === 'contain' ? 'is-plate' : ''}`}
+        style={p.plate ? { background: p.plate } : undefined}
+      >
+        <img
+          src={p.image}
+          alt={`${p.title}: ${p.category}`}
+          loading="lazy"
+          decoding="async"
+          width="1280"
+          height="800"
+        />
+        {p.badge && <span className="chip chip--float">{p.badge}</span>}
+      </div>
+      <div className="proj__body">
+        <p className="proj__cat">{p.category}</p>
+        <h4 className="proj__title">{p.title}</h4>
+        <p className="proj__tag">{p.tagline}</p>
+        {p.stack && (
+          <ul className="tags" aria-label="Built with">
+            {p.stack.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        )}
+        <div className="proj__actions">
+          <button
+            type="button"
+            className="link-btn"
+            aria-expanded={open}
+            aria-controls={panelId}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? 'Hide case study' : 'Read case study'}
+          </button>
+          {p.url && (
+            <a className="link-btn" href={p.url} target="_blank" rel="noopener noreferrer">
+              Visit live site
+            </a>
+          )}
+        </div>
+        <div id={panelId} className={`more ${open ? 'is-open' : ''}`}>
+          <div className="more__inner">
+            <dl>
+              <div>
+                <dt>The brief</dt>
+                <dd>{p.brief}</dd>
               </div>
-
-              <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-start">
-                <div className="md:col-span-2 hidden md:block" />
-                <div className="md:col-span-10 space-y-8">
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-text/10 bg-text/5">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                    />
-                  </div>
-
-                  <div className="grid md:grid-cols-3 gap-6 md:gap-10">
-                    <div className="p-6 rounded-xl border border-text/10 bg-text/[0.02]">
-                      <p className="text-accent text-xs uppercase tracking-widest mb-3 font-semibold">
-                        Brief
-                      </p>
-                      <p className="text-sm leading-relaxed text-text/80">
-                        {project.brief}
-                      </p>
-                    </div>
-                    <div className="p-6 rounded-xl border border-text/10 bg-text/[0.02]">
-                      <p className="text-accent text-xs uppercase tracking-widest mb-3 font-semibold">
-                        Approach
-                      </p>
-                      <p className="text-sm leading-relaxed text-text/80">
-                        {project.approach}
-                      </p>
-                    </div>
-                    <div className="p-6 rounded-xl border border-accent/20 bg-accent/5">
-                      <p className="text-accent text-xs uppercase tracking-widest mb-3 font-semibold">
-                        Result
-                      </p>
-                      <p className="text-sm leading-relaxed text-text/85">
-                        {project.result}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              <div>
+                <dt>The approach</dt>
+                <dd>{p.approach}</dd>
               </div>
-            </article>
+              <div>
+                <dt>The result</dt>
+                <dd>{p.result}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function Projects() {
+  const sites = projects.filter((p) => p.kind === 'website')
+  const brand = projects.filter((p) => p.kind !== 'website')
+
+  return (
+    <section id="work" className="section">
+      <div className="wrap">
+        <div className="section__head">
+          <h2 className="h2">Selected work</h2>
+          <p className="lede">
+            Websites I've built for real businesses, and brand identities from logo to packaging.
+          </p>
+        </div>
+
+        <h3 className="sub-h">Websites</h3>
+        <div className="grid grid--web">
+          {sites.map((p) => (
+            <ProjectCard key={p.id} p={p} />
+          ))}
+        </div>
+
+        <h3 className="sub-h">Brand and graphic design</h3>
+        <div className="grid grid--brand">
+          {brand.map((p) => (
+            <ProjectCard key={p.id} p={p} />
           ))}
         </div>
       </div>
